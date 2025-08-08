@@ -2,6 +2,8 @@ version: "3.9"
 
 services:
   backend:
+    env_file:
+      - .env
     build:
       context: .
       dockerfile: Dockerfile
@@ -10,6 +12,7 @@ services:
     volumes:
       - ./app:/app
     environment:
+      - PYTHONPATH=/code
       - ENV=development
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/pizzagrill
       
@@ -17,9 +20,12 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+    working_dir: /app/client
     ports:
       - "5173:5173"
     volumes:
-      - ./client:/app
+      - ./client:/app/client
+      - /app/client/node_modules
+    command: npm run dev
 
 
