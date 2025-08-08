@@ -42,6 +42,11 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     token = auth.create_access_token({"sub": user.username})
     return {"access_token": token, "token_type": "bearer"}
 
+@app.post("/logout")
+def logout():
+    # Just a confirmation, since JWT is stateless
+    return {"message": "Logged out successfully"}
+
 @app.get("/menu")
 def get_menu():
     menu_items = [
